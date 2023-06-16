@@ -13,7 +13,7 @@ namespace MyPhotoshop
         public Photo(int width, int height)
 		{
 			this.width = width;
-			this.height = height;
+			this.height = height;	
 
 			data = new Pixel[width, height];
 
@@ -26,11 +26,12 @@ namespace MyPhotoshop
 
 		public Pixel this[int x, int y]
 		{
-			get { return data[x, y]; }
-		}
+            get { return data[x, y]; }
+            set { data[x, y] = value ; }
+        }
 
-		
-	
-	}
+
+
+    }
 }
 

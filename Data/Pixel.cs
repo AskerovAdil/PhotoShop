@@ -22,6 +22,22 @@ namespace MyPhotoshop.Data
             return value;
         }
 
+        public static Pixel operator *(Pixel pixel, double value)
+        {
+            var result = new Pixel
+            {
+                R = Trim(pixel.R * value),
+                G = Trim(pixel.G * value),
+                B = Trim(pixel.B * value)
+            };
+
+            return result;
+        }
+        public static Pixel operator *(double value, Pixel pixel)
+        {
+            return pixel*value;
+        }
+
         private double red;
         public double R
         {

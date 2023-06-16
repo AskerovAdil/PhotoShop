@@ -16,8 +16,8 @@ namespace MyPhotoshop
 				{
 					var pixel=bmp.GetPixel (x,y);
 					photo[x, y].R =(double)pixel.R / 255;
-					photo[x, y].G =(double)pixel.R / 255;
-					photo[x, y].B =(double)pixel.R / 255;
+					photo[x, y].G =(double)pixel.G / 255;
+					photo[x, y].B =(double)pixel.B / 255;
 				}
 			return photo;
 		}
