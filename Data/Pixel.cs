@@ -15,6 +15,13 @@ namespace MyPhotoshop.Data
             return value;
         }
 
+        public static double Trim(double value)
+        {
+            if (value < 0) return 0;
+            else if(value > 1) return 1;  
+            return value;
+        }
+
         private double red;
         public double R
         {
