@@ -7,14 +7,11 @@ using System.Threading.Tasks;
 
 namespace MyPhotoshop.Filters
 {
-    public class GrayscaleFilter : IFilter
+    public class GrayscaleFilter : PixelFilter
     {
-        public ParameterInfo[] GetParameters()
+        public override ParameterInfo[] GetParameters()
         {
-            return new ParameterInfo[]
-            {
-
-            };
+            return new ParameterInfo[]{};
         }
 
         public override string ToString()
@@ -22,20 +19,12 @@ namespace MyPhotoshop.Filters
             return "Оттенок серого";
         }
 
-        public Photo Process(Photo original, double[] parameters)
+        public override Pixel ProcessPixel(Pixel original, double[] parametrs)
         {
-            var result = new Photo(original.width, original.height);
+            var lightness = original.R + original.G + original.B;
+            lightness /= 3;
 
-            for(int i =0;i< original.width; i++)
-            {
-                for(int j = 0; j < original.height;j++) 
-                {
-                    var lightness = original[i, j].R + original[i, j].G + original[i, j].B;
-                    lightness /= 3;
-                    result[i, j] = new Pixel() { R = lightness, G = lightness, B = lightness };
-                }
-            }
-            return result;
+            return new Pixel() { R = lightness, G = lightness, B = lightness };
         }
     }
 }
