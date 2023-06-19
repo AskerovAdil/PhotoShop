@@ -4,23 +4,19 @@ using System;
 
 namespace MyPhotoshop
 {
-	public class LighteningFilter : PixelFilter
+	public class LighteningFilter : PixelFilter<LighteningParameters>
 	{
-        public LighteningFilter() : base(new LighteningParameters())
-        {
-        }
 
         public override string ToString ()
 		{
 			return "Осветление/затемнение";
 		}
 
-		public override Pixel ProcessPixel(Pixel original, IParametrs parametrs)
+		public override Pixel ProcessPixel(Pixel original, LighteningParameters parametrs)
 		{
-			var resultPixel = original * (parametrs as LighteningParameters).Coefficient;
+			var resultPixel = original * parametrs.Coefficient;
 			return resultPixel;
 		}
-
 
     }
 }

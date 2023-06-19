@@ -6,24 +6,21 @@ using System.Threading.Tasks;
 
 namespace MyPhotoshop.Filters
 {
-    public abstract class ParametrizedFilter : IFilter
-    {
-        IParametrs parametrs;
-        public ParametrizedFilter(IParametrs parametrs)
-        {
-            this.parametrs = parametrs; 
-        }
 
+    public abstract class ParametrizedFilter<TParametrs> : IFilter
+        where TParametrs : IParametrs, new()
+    {
         public ParameterInfo[] GetParameters()
         {
-            return parametrs.GetDescription();
+            return new TParametrs().GetDescription();
         }
 
         public Photo Process(Photo original, double[] values)
         {
-            this.parametrs.SetValues(values);
+            var parametrs = new TParametrs();
+            parametrs.SetValues(values);
             return Process(original, parametrs);
         }
-        public abstract Photo Process(Photo original, IParametrs parametrs);
+        public abstract Photo Process(Photo original, TParametrs parametrs);
     }
 }

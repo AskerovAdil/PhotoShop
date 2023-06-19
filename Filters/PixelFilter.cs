@@ -7,15 +7,13 @@ using System.Threading.Tasks;
 
 namespace MyPhotoshop.Filters
 {
-    public abstract class PixelFilter : ParametrizedFilter
+    public abstract class PixelFilter<TParametrs> : ParametrizedFilter<TParametrs>
+        where TParametrs : IParametrs, new()
     {
-        protected PixelFilter(IParametrs parametrs) : base(parametrs)
-        {
-        }
 
-        public abstract Pixel ProcessPixel(Pixel original, IParametrs parametrs);
+        public abstract Pixel ProcessPixel(Pixel original, TParametrs parametrs);
 
-        public override Photo Process(Photo original, IParametrs parameters)
+        public override Photo Process(Photo original, TParametrs parameters)
         {
             var result = new Photo(original.width, original.height);
 

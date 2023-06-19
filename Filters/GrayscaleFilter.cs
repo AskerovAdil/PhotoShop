@@ -7,18 +7,15 @@ using System.Threading.Tasks;
 
 namespace MyPhotoshop.Filters
 {
-    public class GrayscaleFilter : PixelFilter
+    public class GrayscaleFilter : PixelFilter<EmptyParameters>
     {
-        public GrayscaleFilter() : base(new EmptyParameters())
-        {
-        }
 
         public override string ToString()
         {
             return "Оттенок серого";
         }
 
-        public override Pixel ProcessPixel(Pixel original, IParametrs parametrs)
+        public override Pixel ProcessPixel(Pixel original, EmptyParameters parametrs)
         {
             var lightness = original.R + original.G + original.B;
             lightness /= 3;
