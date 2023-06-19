@@ -7,11 +7,17 @@ using System.Threading.Tasks;
 
 namespace MyPhotoshop.Filters
 {
-    public abstract class PixelFilter<TParametrs> : ParametrizedFilter<TParametrs>
+    public class PixelFilter<TParametrs> : ParametrizedFilter<TParametrs>
         where TParametrs : IParametrs, new()
     {
+        string name;
+        Func<Pixel, TParametrs, Pixel> proccessor;
 
-        public abstract Pixel ProcessPixel(Pixel original, TParametrs parametrs);
+        public PixelFilter(string name, Func<Pixel, TParametrs, Pixel> proccessor)
+        {
+            this.name = name;
+            this.proccessor = proccessor;
+        }
 
         public override Photo Process(Photo original, TParametrs parameters)
         {
@@ -20,12 +26,17 @@ namespace MyPhotoshop.Filters
             for (int x = 0; x < result.width; x++)
                 for (int y = 0; y < result.height; y++)
                 {
-                    result[x, y] = ProcessPixel(original[x, y], parameters);
+                    result[x, y] = proccessor(original[x, y], parameters);
                 }
             return result;
         }
 
+        public override string ToString()
+        {
+            return name;
+        }
 
-  
+
+
     }
 }
