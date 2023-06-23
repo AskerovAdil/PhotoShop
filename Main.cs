@@ -1,6 +1,7 @@
 ﻿using MyPhotoshop.Data;
 using MyPhotoshop.Filters;
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace MyPhotoshop
@@ -26,7 +27,19 @@ namespace MyPhotoshop
                 }
 				));
 
-			Application.Run (window);
+			window.AddFilter(new TransformFilter(
+				"Отразить по горизонтали",
+				size=>size,
+				(oldPoint, oldSize) => new Point(oldSize.Width - oldPoint.X - 1, oldPoint.Y) 
+				));
+            window.AddFilter(new TransformFilter(
+				"Повернуть по часовой стрелке",
+				size => new Size(size.Height,size.Width),
+				(oldPoint, oldSize) => new Point(oldPoint.Y, oldPoint.X)
+				));
+
+
+            Application.Run (window);
 		}
 	}
 }
