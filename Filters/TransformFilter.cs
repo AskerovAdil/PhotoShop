@@ -8,10 +8,6 @@ using System.Threading.Tasks;
 
 namespace MyPhotoshop.Filters
 {
-    /*
-     - TransformFilter должен принимать в конструкторе sizeTransform (функцию, превращающую старый размер в новый) и
-      pointTransform (функция, показывающая, из какой точки старого изображения брать новую)
-     */
     public class TransformFilter : ParametrizedFilter<EmptyParameters>
     {
         string name;
