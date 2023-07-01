@@ -8,31 +8,33 @@ using System.Threading.Tasks;
 
 namespace MyPhotoshop.Filters
 {
-    public class TransformFilter : ParametrizedFilter<EmptyParameters>
+    public class TransformFilter<TParametrs> : ParametrizedFilter<TParametrs>
+        where TParametrs : IParametrs, new() 
     {
         string name;
-        Func<Size, Size> sizeTransform;
-        Func<Point,Size, Point> pointTransform;
+        Func<Size, TParametrs, Size> sizeTransform;
+        Func<Point, Size, TParametrs, Point?> pointTransform;
 
-        public TransformFilter(string name, Func<Size, Size> sizeTransform, Func<Point, Size, Point> pointTransform)
+        public TransformFilter(string name, Func<Size, TParametrs, Size> sizeTransform, Func<Point, Size, TParametrs, Point?> pointTransform)
         {
             this.name = name;
             this.sizeTransform = sizeTransform;
             this.pointTransform = pointTransform;
         }
 
-        public override Photo Process(Photo original, EmptyParameters parametrs)
+        public override Photo Process(Photo original, TParametrs parametrs)
         {
             var oldSize = new Size(original.width, original.height);
-            var newSize = sizeTransform(oldSize);
+            var newSize = sizeTransform(oldSize, parametrs);
             var result = new Photo(newSize.Width, newSize.Height);
             for(int x=0; x<newSize.Width; x++)
             {
                 for(int y=0; y<newSize.Height; y++)
                 {
                     var point = new Point(x,y);
-                    var oldPoint = pointTransform(point, oldSize);
-                    result[x, y] = original[oldPoint.X, oldPoint.Y];
+                    var oldPoint = pointTransform(point, oldSize, parametrs);
+                    if(oldPoint.HasValue)
+                        result[x, y] = original[oldPoint.Value.X, oldPoint.Value.Y];
                 }
             }
             return result;
